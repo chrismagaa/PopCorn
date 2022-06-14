@@ -2,75 +2,62 @@ package com.androidavancado.popcorn.ui.movies
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.androidavancado.popcorn.R
-import com.androidavancado.popcorn.retrofit.models.Movie
+import androidx.recyclerview.widget.GridLayoutManager
+import com.androidavancado.popcorn.data.model.MovieModel
+import com.androidavancado.popcorn.databinding.FragmentMovieListBinding
+import com.androidavancado.popcorn.domain.model.Movie
+import com.androidavancado.popcorn.ui.movies.adapter.MovieAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MovieListFragment : Fragment() {
 
-    private var columnCount = 2
-    private lateinit var moviesViewModel: MovieViewModel
-    private lateinit var movieAdapter: MyMovieRecyclerViewAdapter
+    private  val moviesViewModel: MovieViewModel by viewModels()
+    private lateinit var movieAdapter: MovieAdapter
     private  var popularMovies: List<Movie> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var _binding: FragmentMovieListBinding? = null
+    private val binding get() = _binding!!
 
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_movie_list_list, container, false)
+        _binding = FragmentMovieListBinding.inflate(inflater, container, false)
 
-        // Obtenemos el ViewModel
-        moviesViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
 
-        movieAdapter = MyMovieRecyclerViewAdapter()
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = movieAdapter
-            }
+        movieAdapter = MovieAdapter{movie ->
+            Toast.makeText(requireContext(), movie.overview, Toast.LENGTH_SHORT).show()
         }
 
-        // Observer de las peliculas
-        moviesViewModel.getPopularMovies().observe(viewLifecycleOwner, Observer {
+        binding.list.adapter = movieAdapter
+        binding.list.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        moviesViewModel.onCreate()
+        moviesViewModel.popularMovies.observe(viewLifecycleOwner, Observer {
             popularMovies = it
             movieAdapter.setData(popularMovies)
         })
-        return view
+
+        moviesViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            binding.progress.isVisible = it
+        })
+
+        return binding.root
     }
 
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            MovieListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
+
+
 }

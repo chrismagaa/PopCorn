@@ -1,9 +1,13 @@
-package com.androidavancado.popcorn.common
+package com.androidavancado.popcorn
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
+
+@HiltAndroidApp
 class MyApp: Application() {
 
+    /*
     companion object {
         lateinit var instance: MyApp
     }
@@ -12,5 +16,7 @@ class MyApp: Application() {
         super.onCreate()
         instance = this
     }
+
+     */
 
 }
