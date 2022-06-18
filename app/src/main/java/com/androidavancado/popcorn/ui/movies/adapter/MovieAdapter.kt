@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.androidavancado.popcorn.R
-import com.androidavancado.popcorn.data.model.MovieModel
 import com.androidavancado.popcorn.domain.model.Movie
 
 

@@ -3,7 +3,6 @@ package com.androidavancado.popcorn.ui.movies
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.androidavancado.popcorn.data.model.MovieModel
 import com.androidavancado.popcorn.domain.GetPopularMoviesUseCase
 import com.androidavancado.popcorn.domain.model.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel

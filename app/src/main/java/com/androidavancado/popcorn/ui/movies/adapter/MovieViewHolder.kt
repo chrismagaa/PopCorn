@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.androidavancado.popcorn.common.Constantes
-import com.androidavancado.popcorn.data.model.MovieModel
 import com.androidavancado.popcorn.databinding.ItemMovieBinding
 import com.androidavancado.popcorn.domain.model.Movie
 

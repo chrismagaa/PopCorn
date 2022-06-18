@@ -1,18 +1,18 @@
 package com.androidavancado.popcorn.ui.movies
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.androidavancado.popcorn.data.model.MovieModel
 import com.androidavancado.popcorn.databinding.FragmentMovieListBinding
 import com.androidavancado.popcorn.domain.model.Movie
+import com.androidavancado.popcorn.ui.DetailActivity
 import com.androidavancado.popcorn.ui.movies.adapter.MovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +35,7 @@ class MovieListFragment : Fragment() {
 
 
         movieAdapter = MovieAdapter{movie ->
-            Toast.makeText(requireContext(), movie.overview, Toast.LENGTH_SHORT).show()
+            goToDetailActivity(movie)
         }
 
         binding.list.adapter = movieAdapter
@@ -52,6 +52,13 @@ class MovieListFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    private fun goToDetailActivity(movie: Movie) {
+        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
+            putExtra(DetailActivity.EXTRA_MOVIE, movie)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

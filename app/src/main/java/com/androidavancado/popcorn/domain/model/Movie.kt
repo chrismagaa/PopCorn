@@ -1,8 +1,12 @@
 package com.androidavancado.popcorn.domain.model
 
+import android.os.Parcelable
 import com.androidavancado.popcorn.data.model.MovieModel
 import com.androidavancado.popcorn.data.persistence.entities.MovieEntity
 
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Movie (
         val adult: Boolean,
         val backdrop_path: String,
@@ -18,7 +22,7 @@ data class Movie (
         val video: Boolean,
         val vote_average: Double,
         val vote_count: Int
-        )
+        ):Parcelable
 
 fun MovieModel.toDomain() = Movie(
         adult,
