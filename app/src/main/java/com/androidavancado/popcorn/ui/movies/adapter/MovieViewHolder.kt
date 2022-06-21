@@ -14,7 +14,7 @@ class MovieViewHolder(view: View): RecyclerView.ViewHolder(view) {
     fun render(movie: Movie, onClick: (Movie) -> Unit){
         binding.itemMovie.setOnClickListener { onClick(movie) }
         binding.textViewTitle.text = movie.title
-        binding.textViewRating.text = movie.vote_average.toString()
+        binding.tvRanking.text = movie.vote_average.toString()
         binding.imageViewPhoto.load(Constantes.IMAGE_BASE_URL + movie.poster_path){
             crossfade(true)
             transformations(CircleCropTransformation())
