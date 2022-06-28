@@ -18,3 +18,7 @@ App to consume The Movie Database API in kotlin.
 ## Screenshots
 
 ![preview1](https://github.com/chrismagaa/PopCorn/blob/master/screenshots.png)
+
+##Download
+
+Download App APK [here](https://github.com/chrismagaa/PopCorn/raw/master/app/debug/app-debug.apk)
